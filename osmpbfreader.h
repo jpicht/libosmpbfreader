@@ -267,7 +267,7 @@ private:
                         tags[key_string] = val_string;
                     }
                     ++current_kv;
-                    visitor.node_callback(id, lon, lat, tags);
+                    visitor.node_callback(id, lon, lat, std::move(tags));
                 }
             }
 
@@ -281,7 +281,7 @@ private:
                     refs.push_back(ref);
                 }
                 uint64_t id = w.id();
-                visitor.way_callback(id, get_tags(w, primblock), refs);
+                visitor.way_callback(id, get_tags(w, primblock), std::move(refs));
             }
 
 
@@ -295,7 +295,7 @@ private:
                     refs.push_back(Reference(rel.types(l), id, primblock.stringtable().s(rel.roles_sid(l))));
                 }
 
-                visitor.relation_callback(rel.id(), get_tags(rel, primblock), refs);
+                visitor.relation_callback(rel.id(), get_tags(rel, primblock), std::move(refs));
             }
         }
     }
